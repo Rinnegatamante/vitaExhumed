@@ -565,13 +565,13 @@ int32_t findfrompath(const char *fn, char **where)
 
     Bcorrectfilename(ffn,0);	// compress relative paths
 
-    int32_t allocsiz = max<int>(maxsearchpathlen, 2);	// "./" (aka. curdir)
+    int32_t allocsiz = max<int>(maxsearchpathlen, 64);	// "./" (aka. curdir)
     allocsiz += strlen(ffn);
     allocsiz += 1;	// a nul
 
     char *pfn = (char *)Xmalloc(allocsiz);
 
-    strcpy(pfn, "./");
+    strcpy(pfn, "ux0:data/vitaExhumed/");
     strcat(pfn, ffn);
     if (buildvfs_exists(pfn))
     {
@@ -1450,7 +1450,7 @@ CACHE1D_FIND_REC *klistpath(const char *_path, const char *mask, int32_t type)
 
         PHYSFS_freeList(rc);
 #else
-        static const char *const CUR_DIR = "./";
+        static const char *const CUR_DIR = "ux0:data/vitaExhumed/";
         // Adjusted for the following "autoload" dir fix - NY00123
         searchpath_t *search = NULL;
         const char *d = pathsearchmode ? _path : CUR_DIR;
