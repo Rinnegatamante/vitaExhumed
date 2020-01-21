@@ -592,7 +592,7 @@ else ifeq ($(PLATFORM),WII)
     COMPILERFLAGS += -DGEKKO -D__POWERPC__ -I$(LIBOGC_INC)
     LIBDIRS += -L$(LIBOGC_LIB)
 else ifeq ($(PLATFORM),PSP2)
-    COMMONFLAGS += -mfpu=neon -mcpu=cortex-a9 -g -ffast-math
+    COMMONFLAGS += -mfpu=neon -mcpu=cortex-a9 -g -ffast-math -fpermissive
     COMPILERFLAGS += -D__PSP2__ -DWANT_FMMIDI=1 -DUSE_AUDIO_RESAMPLER -DHAVE_LIBSPEEXDSP
     LINKERFLAGS += -Wl,-q
 else ifeq ($(PLATFORM),$(filter $(PLATFORM),DINGOO GCW))
@@ -815,7 +815,7 @@ endif
 
 CONLYWARNS := -Wimplicit -Werror-implicit-function-declaration
 
-CWARNS := -W -Wall \
+CWARNS := -W -w \
     -Wextra \
     -Wpointer-arith \
     -Wno-char-subscripts \

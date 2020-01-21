@@ -335,7 +335,7 @@ static void G_DrawOverheadMap(int32_t cposx, int32_t cposy, int32_t czoom, int16
             if (nMapMode == 2)
                 col = 111;
             else
-                col = 111 - min(klabs(z2 - nPlayerZ) >> 13, 12);
+                col = 111 - min(klabs(z2 - nPlayerZ) >> 13, (int32_t)12);
 
             ox = wal->x-cposx;
             oy = wal->y-cposy;

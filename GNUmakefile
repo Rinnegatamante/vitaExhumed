@@ -1103,7 +1103,7 @@ ifeq ($$(PLATFORM),PSP2)
 	vita-make-fself -s $($1_$2).velf $($1_$2).bin
 	cp $($1_$2).bin platform/PSVita/eboot.bin
 	vita-mksfoex -s TITLE_ID=PCEXHUMED -d ATTRIBUTE2=12 "vitaExhumed" platform/PSVita/sce_sys/param.sfo
-	7z a -tzip ./EDuke32.vpk -r ./platform/PSVita/sce_sys ./platform/PSVita/eboot.bin
+	7z a -tzip ./vitaExhumed.vpk -r ./platform/PSVita/sce_sys ./platform/PSVita/eboot.bin
 else
 ifneq ($$(STRIP),)
 	$$(STRIP) $$@ $$($1_$2_stripflags)
@@ -1124,7 +1124,7 @@ $(foreach i,$(games),$(foreach j,$(roles),$(eval $(call BUILDRULE,$i,$j))))
 
 $(ebacktrace_dll): platform/Windows/src/backtrace.c
 	$(COMPILE_STATUS)
-	$(RECIPE_IF) $(CC) $(CONLYFLAGS) -O2 -ggdb -shared -Wall -Wextra -static-libgcc -I$(engine_inc) -o $@ $^ -lbfd -liberty -limagehlp $(RECIPE_RESULT_COMPILE)
+	$(RECIPE_IF) $(CC) $(CONLYFLAGS) -O2 -ggdb -shared -w -Wextra -static-libgcc -I$(engine_inc) -o $@ $^ -lbfd -liberty -limagehlp $(RECIPE_RESULT_COMPILE)
 
 libklzw$(DLLSUFFIX): $(engine_src)/klzw.cpp
 	$(COMPILE_STATUS)
@@ -1191,7 +1191,7 @@ $$($1_obj)/%.$$o: $$($1_src)/%.c | $$($1_obj)
 
 $$($1_obj)/%.$$o: $$($1_src)/%.cpp | $$($1_obj)
 	$$(COMPILE_STATUS)
-	$$(RECIPE_IF) $$(COMPILER_CXX) $$($1_cflags) -c $$< -o $$@ $$(RECIPE_RESULT_COMPILE)
+	$$(RECIPE_IF) $$(COMPILER_CXX) -w $$($1_cflags) -c $$< -o $$@ $$(RECIPE_RESULT_COMPILE)
 
 $$($1_obj)/%.$$o: $$($1_src)/%.m | $$($1_obj)
 	$$(COMPILE_STATUS)

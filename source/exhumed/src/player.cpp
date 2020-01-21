@@ -62,8 +62,8 @@ struct PlayerSave
     short nAngle;
 };
 
-fix16_t lPlayerXVel = 0;
-fix16_t lPlayerYVel = 0;
+int lPlayerXVel = 0;
+int lPlayerYVel = 0;
 fix16_t nPlayerDAng = 0;
 short obobangle = 0, bobangle  = 0;
 short bPlayerPan = 0;
@@ -165,14 +165,14 @@ void PlayerInterruptKeys()
     if (MouseDeadZone)
     {
         if (info.mousey > 0)
-            info.mousey = max(info.mousey - MouseDeadZone, 0);
+            info.mousey = max(info.mousey - MouseDeadZone, (int32_t)0);
         else if (info.mousey < 0)
-            info.mousey = min(info.mousey + MouseDeadZone, 0);
+            info.mousey = min(info.mousey + MouseDeadZone, (int32_t)0);
 
         if (info.mousex > 0)
-            info.mousex = max(info.mousex - MouseDeadZone, 0);
+            info.mousex = max(info.mousex - MouseDeadZone, (int32_t)0);
         else if (info.mousex < 0)
-            info.mousex = min(info.mousex + MouseDeadZone, 0);
+            info.mousex = min(info.mousex + MouseDeadZone, (int32_t)0);
     }
 
     if (MouseBias)

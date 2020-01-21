@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "light.h"
 #include "engine.h"
 #include "exhumed.h"
+#include "baselayer.h"
 #include "view.h"
 #include "cd.h"
 #include "lighting.h"
@@ -85,7 +86,7 @@ int LoadPaletteLookups()
         int hFile = kopen4load(GradList[i], 1);
         if (hFile == -1)
         {
-            initprintf("Error reading palette lookup '%s'\n", GradList[i]);
+            //initprintf("Error reading palette lookup '%s'\n", GradList[i]);
             return 0;
         }
 

@@ -47,6 +47,10 @@ static FORCE_INLINE CONSTEXPR int32_t klrotl(int32_t i, int sh) { return (i >> (
 # endif
 #endif
 
+#ifdef __PSP2__
+#include <vitasdk.h>
+#endif
+
 //use GCC-specific extension to force symbol name to be something in particular to override underscoring.
 #if defined(__GNUC__) && defined(__i386__) && !defined(NOASM)
 #define ASMNAME(x) asm(x)
@@ -357,7 +361,7 @@ static int32_t initpass()  //Interlaced images have 7 "passes", non-interlaced h
 
     //Precalculate x-clipping to screen borders (speeds up putbuf)
     //Equation: (0 <= xr <= ixsiz) && (0 <= xr*ixstp+globxoffs+ixoff <= kp_xres)
-    xr0 = max((-ixoff+(1<<j)-1)>>j,0);
+    xr0 = max((-ixoff+(1<<j)-1)>>j,(int32_t)0);
     xr1 = min((kp_xres-ixoff+(1<<j)-1)>>j,ixsiz);
     xr0 = ixsiz-xr0;
     xr1 = ixsiz-xr1;
@@ -1162,8 +1166,8 @@ static void yrbrend(int32_t x, int32_t y, int32_t *ldct)
             p = pp+(xx<<2);
             dc = odc;
             if (lnumcomponents > 1) dc2 = &ldct[(lcomphvsamp0<<6)+((yy>>lcompvsampshift0)<<3)+(xx>>lcomphsampshift0)];
-            xxxend = min(clipxdim-ox,8);
-            yyyend = min(clipydim-oy,8);
+            xxxend = min(clipxdim-ox,(int32_t)8);
+            yyyend = min(clipydim-oy,(int32_t)8);
             if ((lcomphsamp[0] == 1) && (xxxend == 8))
             {
                 for (yyy=0; yyy<yyyend; yyy++)
@@ -1478,7 +1482,7 @@ static int32_t kpegrend(const char *kfilebuf, int32_t kfilength,
 
                                 //Get AC
                                 if (!dctbuf) Bmemset((void *)&dc[1],0,63*4);
-                                z = max(Ss,1); dcflag = 1;
+                                z = max(Ss,(int32_t)1); dcflag = 1;
                                 if (eobrun <= 0)
                                 {
                                     for (; z<=Se; z++)
@@ -2656,6 +2660,10 @@ intptr_t kzopen(const char *filnam)
 #if defined(_WIN32)
 static HANDLE hfind = INVALID_HANDLE_VALUE;
 static WIN32_FIND_DATA findata;
+#elif defined(__PSP2__)
+#define MAX_PATH 260
+static SceUID hfind = -1;
+static SceIoDirent findata;
 #else
 #include <dirent.h>
 #define MAX_PATH 260
@@ -2678,6 +2686,8 @@ void kzfindfilestart(const char *st)
 #if defined(_WIN32)
     if (hfind != INVALID_HANDLE_VALUE)
         { FindClose(hfind); hfind = INVALID_HANDLE_VALUE; }
+#elif defined(__PSP2__)
+	if (hfind >= 0) { sceIoDclose(hfind); hfind = -1; }
 #else
     if (hfind) { closedir(hfind); hfind = NULL; }
 #endif
@@ -2716,6 +2726,19 @@ int32_t kzfindfile(char *filnam)
                 if ((findata.cFileName[0] == '.') && (!findata.cFileName[1])) continue;
             strcpy(&filnam[i],findata.cFileName);
             if (findata.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) strcat(&filnam[i],"\\");
+#elif defined(__PSP2__)
+            if (hfind < 0)
+            {
+                char const *s = "ux0:data/vitaExhumed";
+                if (wildstpathleng > 0)
+                {
+                    filnam[wildstpathleng] = 0;
+                    s = filnam;
+                }
+                hfind = sceIoDopen(s);
+                if (hfind < 0) { if (!kzhashbuf) return 0; srchstat = 2; continue; }
+            }
+            break;   // process srchstat == 1
 #else
             if (!hfind)
             {
@@ -2748,6 +2771,18 @@ int32_t kzfindfile(char *filnam)
                 if ((findata.cFileName[0] == '.') && (!findata.cFileName[1])) continue;
             strcpy(&filnam[i],findata.cFileName);
             if (findata.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) strcat(&filnam[i],"\\");
+#elif defined(__PSP2__)
+			if (sceIoDread(hfind, &findata) <= 0)
+                { sceIoDclose(hfind); hfind = -1; if (!kzhashbuf) return 0; srchstat = 2; break; }
+            i = wildstpathleng;
+            if (S_ISDIR(findata.d_stat.st_mode))
+                { if (findata.d_name[0] == '.' && !findata.d_name[1]) continue; } //skip .
+            else if (S_ISREG(findata.d_stat.st_mode) || S_ISLNK(findata.d_stat.st_mode))
+                { if (findata.d_name[0] == '.') continue; } //skip hidden (dot) files
+            else continue; //skip devices and fifos and such
+            if (!wildmatch(findata.d_name,&newildst[wildstpathleng])) continue;
+            strcpy(&filnam[i],findata.d_name);
+            if (S_ISDIR(findata.d_stat.st_mode)) strcat(&filnam[i],"/");
 #else
             if ((findata = readdir(hfind)) == NULL)
                 { closedir(hfind); hfind = NULL; if (!kzhashbuf) return 0; srchstat = 2; break; }
@@ -2858,7 +2893,7 @@ int32_t kzread(void *buffer, int32_t leng)
         }
         else
         {
-            i = max(gslidew-32768,0); j = gslider-16384;
+            i = max(gslidew-32768,(int32_t)0); j = gslider-16384;
 
             //HACK: Don't unzip anything until you have to...
             //   (keeps file pointer as low as possible)

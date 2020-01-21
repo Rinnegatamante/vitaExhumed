@@ -481,7 +481,13 @@ void SCRIPT_Save(int32_t scripthandle, char const * filename)
     if (!filename) return;
     if (!SC(scripthandle)) return;
 
+#ifdef __PSP2__
+	char fname[256];
+	sprintf(fname, "ux0:data/vitaExhumed/%s", filename);
+	fp = buildvfs_fopen_write_text(fname);
+#else
     fp = buildvfs_fopen_write_text(filename);
+#endif
     if (!fp) return;
 
     numsect = SCRIPT_NumberSections(scripthandle);

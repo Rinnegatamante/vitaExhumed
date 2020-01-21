@@ -302,7 +302,7 @@ static FORCE_INLINE int32_t bad_tspr(tspriteptr_t tspr)
 //
 static FORCE_INLINE int32_t getpalookup(int32_t davis, int32_t dashade)
 {
-    return min(max(dashade + (davis >> 8), 0), numshades - 1);
+    return min((int)max(dashade + (davis >> 8), (int32_t)0), numshades - 1);
 }
 
 static FORCE_INLINE int32_t getpalookupsh(int32_t davis) { return getpalookup(davis, globalshade) << 8; }

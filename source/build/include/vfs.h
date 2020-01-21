@@ -85,10 +85,14 @@ using buildvfs_FILE = FILE *;
 #define buildvfs_EOF EOF
 #define buildvfs_fread(p, s, n, fp) fread((p), (s), (n), (fp))
 #define buildvfs_fwrite(p, s, n, fp) fwrite((p), (s), (n), (fp))
-#define buildvfs_fopen_read(fn) fopen((fn), "rb")
-#define buildvfs_fopen_write(fn) fopen((fn), "wb")
-#define buildvfs_fopen_write_text(fn) fopen((fn), "w")
-#define buildvfs_fopen_append(fn) fopen((fn), "ab")
+//#define buildvfs_fopen_read(fn) fopen((fn), "rb")
+//#define buildvfs_fopen_write(fn) fopen((fn), "wb")
+//#define buildvfs_fopen_write_text(fn) fopen((fn), "w")
+//#define buildvfs_fopen_append(fn) fopen((fn), "ab")
+extern buildvfs_FILE buildvfs_fopen_read(const char *fn);
+extern buildvfs_FILE buildvfs_fopen_write(const char *fn);
+extern buildvfs_FILE buildvfs_fopen_write_text(const char *fn);
+extern buildvfs_FILE buildvfs_fopen_append(const char *fn);
 #define buildvfs_fgetc(fp) fgetc(fp)
 #define buildvfs_fputc(c, fp) fputc((c), (fp))
 #define buildvfs_fgets(str, size, fp) fgets((str), (size), (fp))

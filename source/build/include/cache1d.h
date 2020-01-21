@@ -146,7 +146,7 @@ typedef struct _CACHE1D_FIND_REC {
     struct _CACHE1D_FIND_REC *next, *prev, *usera, *userb;
 } CACHE1D_FIND_REC;
 void klistfree(CACHE1D_FIND_REC *rec);
-CACHE1D_FIND_REC *klistpath(const char *path, const char *mask, int type);
+CACHE1D_FIND_REC *klistpath(const char *path, const char *mask, int32_t type);
 
 extern int32_t lz4CompressionLevel;
 int32_t     kdfread(void *buffer, int dasizeof, int count, buildvfs_kfd fil);

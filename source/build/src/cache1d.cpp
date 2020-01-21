@@ -309,7 +309,7 @@ void cacheAgeEntries(void)
     if (agecount >= cacnum)
         agecount = cacnum-1;
 
-    int cnt = min(MAXCACHEOBJECTS >> 5, cacnum-1);
+    int cnt = min((int32_t)MAXCACHEOBJECTS >> 5, cacnum-1);
 
     while(cnt--)
     {

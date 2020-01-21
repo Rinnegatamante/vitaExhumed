@@ -451,7 +451,7 @@ void InstallEngine()
         }
         buildvfs_chdir(cwd);
 #ifndef __ANDROID__ //This crashes on *some* Android devices. Small onetime memory leak. TODO fix above function
-        Xfree(cwd);
+        //Xfree(cwd);
 #endif
     }
     else if (artLoadFiles("tiles000.art",MAXCACHE1DSIZE) < 0)

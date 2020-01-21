@@ -615,8 +615,8 @@ static int32_t defsparser(scriptfile *script)
             if (scriptfile_getsymbol(script,&b)) break;
             if (scriptfile_getsymbol(script,&e)) break;
 
-            b = max(b, 1);
-            e = min(e, MAXPALOOKUPS-1);
+            b = max(b, (int32_t)1);
+            e = min(e, (int32_t)MAXPALOOKUPS-1);
 
             for (i=b; i<=e; i++)
                 g_noFloorPal[i] = 1;
@@ -1184,7 +1184,7 @@ static int32_t defsparser(scriptfile *script)
 #ifdef USE_OPENGL
             for (tilex = ftilenume; tilex <= ltilenume && happy; tilex++)
             {
-                switch (md_defineframe(lastmodelid, framename, tilex, max(0,modelskin), 0.0f,0))
+                switch (md_defineframe(lastmodelid, framename, tilex, max((int32_t)0,modelskin), 0.0f,0))
                 {
                 case -1:
                     happy = 0; break; // invalid model id!?
@@ -1274,7 +1274,7 @@ static int32_t defsparser(scriptfile *script)
                 break;
 
 #ifdef USE_OPENGL
-            switch (md_defineskin(lastmodelid, skinfn, palnum, max(0,modelskin), 0, 0.0f, 1.0f, 1.0f, 0))
+            switch (md_defineskin(lastmodelid, skinfn, palnum, max((int32_t)0,modelskin), 0, 0.0f, 1.0f, 1.0f, 0))
             {
             case 0:
                 break;
@@ -1469,7 +1469,7 @@ static int32_t defsparser(scriptfile *script)
 #ifdef USE_OPENGL
                     for (tilex = ftilenume; tilex <= ltilenume && happy; tilex++)
                     {
-                        framei = md_defineframe(lastmodelid, framename, tilex, max(0,modelskin), smoothduration,pal);
+                        framei = md_defineframe(lastmodelid, framename, tilex, max((int32_t)0,modelskin), smoothduration,pal);
                         switch (framei)
                         {
                         case -1:
@@ -1652,7 +1652,7 @@ static int32_t defsparser(scriptfile *script)
                         break;
 
 #ifdef USE_OPENGL
-                    switch (md_defineskin(lastmodelid, skinfn, palnum, max(0,modelskin), surfnum, param, specpower, specfactor, flags))
+                    switch (md_defineskin(lastmodelid, skinfn, palnum, max((int32_t)0,modelskin), surfnum, param, specpower, specfactor, flags))
                     {
                     case 0:
                         break;
@@ -2096,17 +2096,17 @@ static int32_t defsparser(scriptfile *script)
                 case T_PAL:
                     scriptfile_getsymbol(script,&pal);        break;
                 case T_RED:
-                    scriptfile_getnumber(script,&red);        red        = min(255,max(0,red));   break;
+                    scriptfile_getnumber(script,&red);        red        = min((int32_t)255,max((int32_t)0,red));   break;
                 case T_GREEN:
-                    scriptfile_getnumber(script,&green);      green      = min(255,max(0,green)); break;
+                    scriptfile_getnumber(script,&green);      green      = min((int32_t)255,max((int32_t)0,green)); break;
                 case T_BLUE:
-                    scriptfile_getnumber(script,&blue);       blue       = min(255,max(0,blue));  break;
+                    scriptfile_getnumber(script,&blue);       blue       = min((int32_t)255,max((int32_t)0,blue));  break;
                 case T_SHADERED:
-                    scriptfile_getnumber(script,&shadered);   shadered   = min(255,max(0,shadered));   break;
+                    scriptfile_getnumber(script,&shadered);   shadered   = min((int32_t)255,max((int32_t)0,shadered));   break;
                 case T_SHADEGREEN:
-                    scriptfile_getnumber(script,&shadegreen); shadegreen = min(255,max(0,shadegreen)); break;
+                    scriptfile_getnumber(script,&shadegreen); shadegreen = min((int32_t)255,max((int32_t)0,shadegreen)); break;
                 case T_SHADEBLUE:
-                    scriptfile_getnumber(script,&shadeblue);  shadeblue  = min(255,max(0,shadeblue));  break;
+                    scriptfile_getnumber(script,&shadeblue);  shadeblue  = min((int32_t)255,max((int32_t)0,shadeblue));  break;
                 case T_FLAGS:
                     scriptfile_getsymbol(script,&flags);      break;
                 }
@@ -2558,8 +2558,8 @@ static int32_t defsparser(scriptfile *script)
             if (EDUKE32_PREDICT_FALSE(scriptfile_getsymbol(script,&b))) break;
             if (EDUKE32_PREDICT_FALSE(scriptfile_getsymbol(script,&e))) break;
 
-            b = max(b, 0);
-            e = min(e, MAXUSERTILES-1);
+            b = max(b, (int32_t)0);
+            e = min(e, (int32_t)MAXUSERTILES-1);
 
             for (i=b; i<=e; i++)
                 picanm[i].sf |= (tokn==T_TEXHITSCANRANGE) ?

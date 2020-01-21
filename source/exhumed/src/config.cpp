@@ -787,10 +787,14 @@ void CONFIG_WriteSettings(void) // save binds and aliases to <cfgname>_settings.
 {
     char filename[BMAX_PATH];
 
-    if (!Bstrcmp(setupfilename, kSetupFilename))
+#ifdef __PSP2__
+    Bsprintf(filename, "ux0:data/vitaExhumed/settings.cfg");
+#else
+    if (!Bstrcmp(SetupFilename, SETUPFILENAME))
         Bsprintf(filename, "settings.cfg");
     else
-        Bsprintf(filename, "%s_settings.cfg", strtok(setupfilename, "."));
+        Bsprintf(filename, "%s_settings.cfg", strtok(ptr, "."));
+#endif
 
     buildvfs_FILE fp = buildvfs_fopen_write(filename);
 

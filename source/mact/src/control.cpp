@@ -471,10 +471,10 @@ void CONTROL_ClearAssignments(void)
     memset(CONTROL_MouseAxesMap,        AXISUNDEFINED,   sizeof(CONTROL_MouseAxesMap));
     memset(CONTROL_MouseButtonMapping,  BUTTONUNDEFINED, sizeof(CONTROL_MouseButtonMapping));
 
-    for (int & i : CONTROL_MouseAxesScale)
+    for (int32_t & i : CONTROL_MouseAxesScale)
         i = NORMALAXISSCALE;
 
-    for (int & i : CONTROL_JoyAxesScale)
+    for (int32_t & i : CONTROL_JoyAxesScale)
         i = NORMALAXISSCALE;
 }
 
@@ -930,8 +930,8 @@ void CONTROL_GetInput(ControlInfo *info)
 
 static void CONTROL_ResetJoystickValues()
 {
-    CONTROL_NumJoyAxes      = min(MAXJOYAXES, joystick.numAxes);
-    CONTROL_NumJoyButtons   = min(MAXJOYBUTTONS, joystick.numButtons + 4 * (joystick.numHats > 0));
+    CONTROL_NumJoyAxes      = min((int32_t)MAXJOYAXES, (int32_t)joystick.numAxes);
+    CONTROL_NumJoyButtons   = min((int32_t)MAXJOYBUTTONS, (int32_t)(joystick.numButtons + 4 * (joystick.numHats > 0)));
     CONTROL_JoystickEnabled = CONTROL_JoyPresent = !!((inputdevices & 4) >> 2);
 }
 

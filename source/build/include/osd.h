@@ -237,17 +237,17 @@ void OSD_Cleanup(void);
 void OSD_SetLogFile(const char *fn);
 
 // sets the functions the OSD will call to interrogate the environment
-void OSD_SetFunctions(void (*drawchar)(int, int, char, int, int),
-                      void (*drawstr)(int, int, const char *, int, int, int),
-                      void (*drawcursor)(int, int, int, int),
-                      int (*colwidth)(int),
-                      int (*rowheight)(int),
-                      void (*clearbg)(int, int),
+void OSD_SetFunctions(void (*drawchar)(int32_t, int32_t, char, int32_t, int32_t),
+                      void (*drawstr)(int32_t, int32_t, const char *, int32_t, int32_t, int32_t),
+                      void (*drawcursor)(int32_t, int32_t, int32_t, int32_t),
+                      int32_t (*colwidth)(int32_t),
+                      int32_t (*rowheight)(int32_t),
+                      void (*clearbg)(int32_t, int32_t),
                       int32_t (*gtime)(void),
-                      void (*showosd)(int));
+                      void (*showosd)(int32_t));
 
 // sets the parameters for presenting the text
-void OSD_SetParameters(int promptShade, int promptPal, int editShade, int editPal, int textShade, int textPal,
+void OSD_SetParameters(int32_t promptShade, int32_t promptPal, int32_t editShade, int32_t editPal, int32_t textShade, int32_t textPal,
                        char const *errorStr, char const *highlight, uint32_t flags);
 
 // sets the scancode for the key which activates the onscreen display
@@ -259,7 +259,7 @@ int OSD_HandleScanCode(uint8_t scanCode, int keyDown);
 int OSD_HandleChar(char ch);
 
 // handles the readjustment when screen resolution changes
-void OSD_ResizeDisplay(int w,int h);
+void OSD_ResizeDisplay(int32_t w,int32_t h);
 
 // captures and frees osd input
 void OSD_CaptureInput(int cap);
