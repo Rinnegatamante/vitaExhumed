@@ -433,8 +433,8 @@ void CONFIG_SetDefaults()
     else
 # endif
     {
-        gSetup.xdim = 1024;
-        gSetup.ydim = 768;
+        gSetup.xdim = 640;
+        gSetup.ydim = 480;
     }
 
 #ifdef USE_OPENGL

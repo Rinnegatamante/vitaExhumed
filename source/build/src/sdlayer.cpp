@@ -97,7 +97,7 @@ static SDL_GLContext sdl_context=NULL;
 #endif
 
 #ifdef __PSP2__
-int32_t xres=1024, yres=768, bpp=8, fullscreen=1, bytesperline = 1024;
+int32_t xres=640, yres=480, bpp=8, fullscreen=1, bytesperline = 480;
 #else
 int32_t xres=-1, yres=-1, bpp=0, fullscreen=0, bytesperline, refreshfreq=-1;
 #endif
@@ -457,18 +457,7 @@ credits_voice intro[INTRO_VOICES] = {
     {0, 500, &green,  "Loading, please wait..."}
 };
 
-int psp2_main(unsigned int argc, void *argv) {
-    SceAppUtilInitParam appUtilParam;
-    SceAppUtilBootParam appUtilBootParam;
-    memset(&appUtilParam, 0, sizeof(SceAppUtilInitParam));
-    memset(&appUtilBootParam, 0, sizeof(SceAppUtilBootParam));
-    sceAppUtilInit(&appUtilParam, &appUtilBootParam);
-    int enterButton;
-    sceAppUtilSystemParamGetInt(SCE_SYSTEM_PARAM_ID_ENTER_BUTTON, &enterButton);
-    
-    SCE_CTRL_CONFIRM = (enterButton == 0) ? SCE_CTRL_CIRCLE : SCE_CTRL_CROSS;
-    SCE_CTRL_CANCEL = (enterButton == 0) ? SCE_CTRL_CROSS : SCE_CTRL_CIRCLE;
-    
+int psp2_main(unsigned int argc, void *argv) {  
     scePowerSetArmClockFrequency(444);
     scePowerSetBusClockFrequency(222);
     scePowerSetGpuClockFrequency(222);
@@ -477,10 +466,10 @@ int psp2_main(unsigned int argc, void *argv) {
     vita2d_init();
     vita2d_set_vblank_wait(0);
     
-    gpu_texture = vita2d_create_empty_texture_format(1024, 768, SCE_GXM_TEXTURE_FORMAT_P8_1BGR);
+    gpu_texture = vita2d_create_empty_texture_format(640, 480, SCE_GXM_TEXTURE_FORMAT_P8_1BGR);
     vita2d_texture_set_filters(gpu_texture, SCE_GXM_TEXTURE_FILTER_LINEAR, SCE_GXM_TEXTURE_FILTER_LINEAR);
 	vita2d_texture_set_alloc_memblock_type(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW);
-    fb_texture = vita2d_create_empty_texture_format(1024, 768, SCE_GXM_TEXTURE_FORMAT_P8_1BGR);
+    fb_texture = vita2d_create_empty_texture_format(640, 480, SCE_GXM_TEXTURE_FORMAT_P8_1BGR);
     
     framebuffer = (uint8_t*)vita2d_texture_get_datap(fb_texture);
     
@@ -1983,7 +1972,7 @@ void videoShowFrame(int32_t w)
 #ifdef __PSP2__
 		memcpy(vita2d_texture_get_datap(gpu_texture),vita2d_texture_get_datap(fb_texture),vita2d_texture_get_stride(gpu_texture)*vita2d_texture_get_height(gpu_texture));
 	    vita2d_start_drawing();
-	    vita2d_draw_texture_scale(gpu_texture, 0, 0, 0.9375f, 0.7083f);
+	    vita2d_draw_texture_scale(gpu_texture, 0, 0, 1.5f, 1.1333f);
 	    vita2d_end_drawing();
 	    vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
