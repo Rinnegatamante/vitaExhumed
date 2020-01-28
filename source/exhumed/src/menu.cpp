@@ -46,7 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <stdlib.h>
 #endif
 
-#define kSaveFileName       "savgamea.sav"
+#define kSaveFileName       "ux0:data/vitaExhumed/savgamea.sav"
 #define kMaxSaveSlots		5
 #define kMaxSaveSlotChars	25
 
@@ -1193,7 +1193,7 @@ check_keys:
                 KB_GetCh();
                 goto check_keys;
             }
-
+			
             // handle key input
             if (ch == asc_Enter)
             {
@@ -1207,13 +1207,13 @@ check_keys:
                     return -1;
                 }
 
-                if (nNameLength) // does the save slot already exist?
+                /*if (nNameLength) // does the save slot already exist?
                 {
                     menu_DoPlasma();
                     if (Query(2, 4, "Overwrite existing game?", "Y/N", 'Y', 13, 'N', 27) >= 2) {
                         return -1;
                     }
-                }
+                }*/
 
                 FILE *fp = fopen(kSaveFileName, "rb+");
                 if (fp == NULL) {
