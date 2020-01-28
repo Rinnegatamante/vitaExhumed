@@ -446,14 +446,16 @@ typedef struct credits_voice{
     char text[256];
 } credits_voice;
 
-#define INTRO_VOICES 6
+#define INTRO_VOICES 8
 
 credits_voice intro[INTRO_VOICES] = {
     {0, 100, &yellow, "vitaExhumed v.1.0"},
     {0, 120, &white,  "by Rinnegatamante"},
     {0, 200, &yellow, "Thanks to my distinguished Patroners:"},
-    {0, 220, &white,  "XandridFire"},
-    {0, 240, &white,  "Billy McLaughlin II"},
+    {0, 220, &white,  "drd7of14"},
+    {0, 240, &white,  "polytoad"},
+	{0, 260, &white,  "The Vita3K project"},
+	{0, 280, &white,  "Tain Sueiras"},
     {0, 500, &green,  "Loading, please wait..."}
 };
 
@@ -1970,15 +1972,15 @@ void videoShowFrame(int32_t w)
 
     if (offscreenrendering) return;
 #ifdef __PSP2__
-		sceGxmTransferCopy(640, 480, 0, 0, SCE_GXM_TRANSFER_COLORKEY_NONE,
+	sceGxmTransferCopy(640, 480, 0, 0, SCE_GXM_TRANSFER_COLORKEY_NONE,
 		SCE_GXM_TRANSFER_FORMAT_U8_R, SCE_GXM_TRANSFER_LINEAR,
 		vita2d_texture_get_datap(fb_texture), 0, 0, 640, 
 		SCE_GXM_TRANSFER_FORMAT_U8_R, SCE_GXM_TRANSFER_LINEAR,
 		vita2d_texture_get_datap(gpu_texture), 0, 0, 640, NULL, SCE_GXM_TRANSFER_FRAGMENT_SYNC, NULL);
-		vita2d_start_drawing();
-	    vita2d_draw_texture_scale(gpu_texture, 0, 0, 1.5f, 1.1333f);
-	    vita2d_end_drawing();
-		vita2d_swap_buffers();
+	vita2d_start_drawing();
+	vita2d_draw_texture_scale(gpu_texture, 0, 0, 1.5f, 1.1333f);
+	vita2d_end_drawing();
+	vita2d_swap_buffers();
 #else
     if (lockcount)
     {
