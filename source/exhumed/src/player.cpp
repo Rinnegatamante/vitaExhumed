@@ -3044,11 +3044,25 @@ do_default_b:
                     if (var_90)
                     {
                         var_90--;
-
+#ifdef __PSP2__
+						int8_t modifier = var_90 == 1 ? 1 : -1;
+						int8_t cur_weapon = PlayerList[nPlayer].nCurrentWeapon;
+						for (;;) {
+							cur_weapon += modifier;
+							if (cur_weapon == PlayerList[nPlayer].nCurrentWeapon) break;
+							else if (cur_weapon < 0) cur_weapon = kMaxWeapons;
+							else if (cur_weapon > kMaxWeapons) cur_weapon = 0;
+							if (nPlayerWeapons[nPlayer] & (1 << cur_weapon)) {
+								SetNewWeapon(nPlayer, cur_weapon);
+								break;
+							}
+						}
+#else
                         if (nPlayerWeapons[nPlayer] & (1 << var_90))
                         {
                             SetNewWeapon(nPlayer, var_90);
                         }
+#endif
                     }
                 }
                 else // player is mummified
