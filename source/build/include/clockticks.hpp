@@ -11,6 +11,7 @@
 #define CLOCKTICKS_HPP_
 
 #include "timer.h"
+#include <type_traits>
 
 //POGO: BUILD/EDuke32 uses right shifts on signed variables expecting arithmetic shifts.
 //      This was already non-portable, and we carry that assumption forth here
@@ -131,7 +132,9 @@ public:
 
     explicit operator uint32_t() const { return wholeTicks; };
     explicit operator int32_t() const { return wholeTicks; };
-	explicit operator int() const { return wholeTicks; };
+    template <typename T, typename std::enable_if<std::is_same<T, int>::value &&
+        !std::is_same<T, int32_t>::value, int>::type = 0>
+    explicit operator T() const { return wholeTicks; };
 
 private:
     //POGO: wholeTicks must be first in member-order to ensure the address of
